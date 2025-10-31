@@ -22,10 +22,17 @@
  *     display: flex;
  *     min-width: 0;
  *   }
+ *   #collection-container .block {
+ *     min-width: 0;
+ *     width: 100%;
+ *   }
  *   #collection-container .location-name-text {
- *     word-wrap: break-word;
- *     overflow-wrap: break-word;
+ *     white-space: normal !important;
+ *     word-wrap: break-word !important;
+ *     overflow-wrap: break-word !important;
+ *     word-break: break-word !important;
  *     hyphens: auto;
+ *     min-width: 0;
  *   }
  * </style>
  */

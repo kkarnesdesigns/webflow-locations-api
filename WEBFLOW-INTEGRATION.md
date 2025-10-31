@@ -37,13 +37,21 @@ Add an **Embed** element to your page and paste this CSS:
 
   #collection-container > a {
     display: flex;
-    min-width: 0; /* Allow flex items to shrink below content size */
+    min-width: 0;
+  }
+
+  #collection-container .block {
+    min-width: 0;
+    width: 100%;
   }
 
   #collection-container .location-name-text {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
     hyphens: auto;
+    min-width: 0;
   }
 </style>
 ```
