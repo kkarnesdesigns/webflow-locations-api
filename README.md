@@ -57,9 +57,11 @@ A secure serverless API proxy for fetching Webflow CMS location data. Keeps your
 3. **Add environment variables in Vercel dashboard:**
    - Go to your project settings
    - Navigate to Environment Variables
-   - Add:
+   - Add (required):
      - `WEBFLOW_API_TOKEN` = your Webflow API token
      - `LOCATION_COLLECTION_ID` = `67449d55c13cb041357c529f`
+   - Add (optional, if you need to fetch state reference data):
+     - `STATE_COLLECTION_ID` = your state collection ID
 
 4. **Deploy to production:**
    ```bash
@@ -123,11 +125,11 @@ Fetch items from any Webflow collection (not just locations).
 
 **Example:**
 ```bash
-# Fetch states
+# Fetch states collection
 curl https://your-deployment.vercel.app/api/locations?collectionId=STATE_COLLECTION_ID
 
-# Fetch statuses
-curl https://your-deployment.vercel.app/api/locations?collectionId=STATUS_COLLECTION_ID
+# Fetch any other collection
+curl https://your-deployment.vercel.app/api/locations?collectionId=YOUR_COLLECTION_ID
 ```
 
 ## Client-Side Integration
@@ -182,7 +184,7 @@ async function fetchAllLocations() {
 }
 ```
 
-### Example: Fetch State or Status Data
+### Example: Fetch State Reference Data
 
 ```javascript
 async function fetchItemById(collectionId, itemId) {
@@ -197,9 +199,11 @@ async function fetchItemById(collectionId, itemId) {
   return await response.json();
 }
 
-// Usage
-const stateData = await fetchItemById('STATE_COLLECTION_ID', 'state-id');
-const statusData = await fetchItemById('STATUS_COLLECTION_ID', 'status-id');
+// Usage: Fetch state abbreviation from state collection
+const stateData = await fetchItemById('STATE_COLLECTION_ID', '6839e73064325bc87dde3c40');
+console.log(stateData.fieldData.abbreviation); // e.g., "TN"
+
+// Note: location-status is an option field, not a reference - its value is directly in the location data
 ```
 
 ## Environment Variables
@@ -208,6 +212,9 @@ const statusData = await fetchItemById('STATUS_COLLECTION_ID', 'status-id');
 |----------|-------------|----------|---------|
 | `WEBFLOW_API_TOKEN` | Your Webflow API v2 token | Yes | - |
 | `LOCATION_COLLECTION_ID` | Default collection ID for locations | Yes | - |
+| `STATE_COLLECTION_ID` | Collection ID for state/province data (for reference lookups) | No | - |
+
+**Note:** `location-status` is an option field in the CMS (not a reference collection), so no separate STATUS_COLLECTION_ID is needed.
 
 ### Getting Your Webflow API Token
 
