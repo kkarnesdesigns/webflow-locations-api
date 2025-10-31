@@ -20,9 +20,40 @@ In Webflow Designer, add these three elements to your page:
 
 3. **Locations Container** (Div Block)
    - Element ID: `collection-container`
-   - Layout: CSS Grid with 3 columns
-   - Grid template columns: `repeat(3, 1fr)`
-   - Gap: `1rem`
+
+### Step 1.5: Add Required CSS
+
+Add an **Embed** element to your page and paste this CSS:
+
+```html
+<style>
+  /* Ensure grid items are equal height and text wraps */
+  #collection-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    grid-auto-rows: 1fr;
+  }
+
+  #collection-container > a {
+    display: flex;
+    min-width: 0; /* Allow flex items to shrink below content size */
+  }
+
+  #collection-container .location-name-flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    min-width: 0;
+  }
+
+  #collection-container .label-regular {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    min-width: 0;
+  }
+</style>
+```
 
 ### Step 2: Add the Script
 
@@ -125,18 +156,18 @@ Update the `#collection-container` CSS:
 
 ### Sort Locations Alphabetically
 
-Add this before rendering:
+**Note:** Locations are already sorted alphabetically by default! If you want to change the sort order, modify the `fetchAllItems()` function:
 
 ```javascript
 async function fetchAllItems() {
   const allItems = [];
   // ... existing fetch code ...
 
-  // Sort alphabetically by name
+  // Sort by state instead of name
   allItems.sort((a, b) => {
-    const nameA = a.fieldData.name || '';
-    const nameB = b.fieldData.name || '';
-    return nameA.localeCompare(nameB);
+    const stateA = a.fieldData.state || '';
+    const stateB = b.fieldData.state || '';
+    return stateA.localeCompare(stateB);
   });
 
   return allItems;

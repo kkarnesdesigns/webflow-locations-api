@@ -7,7 +7,33 @@
  *    - #loading (loading indicator)
  *    - #error (error message container)
  *    - #collection-container (location items container)
- * 2. Paste this script in Webflow Page Settings > Custom Code > Before </body> tag
+ * 2. Add CSS for proper grid layout (see below)
+ * 3. Paste this script in Webflow Page Settings > Custom Code > Before </body> tag
+ *
+ * REQUIRED CSS (add to Webflow Embed element or custom CSS):
+ * <style>
+ *   #collection-container {
+ *     display: grid;
+ *     grid-template-columns: repeat(3, 1fr);
+ *     gap: 1rem;
+ *     grid-auto-rows: 1fr;
+ *   }
+ *   #collection-container > a {
+ *     display: flex;
+ *     min-width: 0;
+ *   }
+ *   #collection-container .location-name-flex {
+ *     display: flex;
+ *     flex-wrap: wrap;
+ *     align-items: baseline;
+ *     min-width: 0;
+ *   }
+ *   #collection-container .label-regular {
+ *     word-wrap: break-word;
+ *     overflow-wrap: break-word;
+ *     min-width: 0;
+ *   }
+ * </style>
  */
 
 (function() {
@@ -227,7 +253,7 @@
 
   /**
    * Fetches all items from collection (handles pagination automatically)
-   * @returns {Promise<Array>} All collection items
+   * @returns {Promise<Array>} All collection items sorted alphabetically
    */
   async function fetchAllItems() {
     const allItems = [];
@@ -249,6 +275,13 @@
         break;
       }
     }
+
+    // Sort alphabetically by location name
+    allItems.sort((a, b) => {
+      const nameA = (a.fieldData.name || '').toLowerCase();
+      const nameB = (b.fieldData.name || '').toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
 
     return allItems;
   }
