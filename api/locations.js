@@ -16,7 +16,7 @@ const corsHeaders = {
 /**
  * Main handler for the serverless function
  */
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   // Handle OPTIONS request (CORS preflight)
   if (req.method === 'OPTIONS') {
     return res.status(200).set(corsHeaders).end();
@@ -112,4 +112,4 @@ export default async function handler(req, res) {
       stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
-}
+};
