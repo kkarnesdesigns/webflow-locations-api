@@ -1,6 +1,7 @@
 {
   "name": "webflow-locations-api",
   "version": "1.0.0",
+  "type": "module",
   "description": "Serverless API proxy for Webflow CMS locations with CORS support",
   "main": "api/locations.js",
   "scripts": {

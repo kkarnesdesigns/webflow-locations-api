@@ -16,7 +16,7 @@ const corsHeaders = {
 /**
  * Main handler for the serverless function
  */
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   // Handle OPTIONS request (CORS preflight)
   if (req.method === 'OPTIONS') {
     return res.status(200).set(corsHeaders).end();
@@ -108,7 +108,8 @@ module.exports = async (req, res) => {
     console.error('Unexpected error:', error);
     return res.status(500).set(corsHeaders).json({
       error: 'Internal server error',
-      message: error.message
+      message: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
-};
+}
