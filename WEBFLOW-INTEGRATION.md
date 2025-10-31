@@ -27,7 +27,7 @@ Add an **Embed** element to your page and paste this CSS:
 
 ```html
 <style>
-  /* Ensure grid items are equal height and text wraps */
+  /* Ensure grid items are equal height and text wraps inline */
   #collection-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -40,17 +40,10 @@ Add an **Embed** element to your page and paste this CSS:
     min-width: 0; /* Allow flex items to shrink below content size */
   }
 
-  #collection-container .location-name-flex {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    min-width: 0;
-  }
-
-  #collection-container .label-regular {
+  #collection-container .location-name-text {
     word-wrap: break-word;
     overflow-wrap: break-word;
-    min-width: 0;
+    hyphens: auto;
   }
 </style>
 ```
@@ -95,8 +88,8 @@ The script maps Webflow status option field hashes to display values:
 
 ```javascript
 const STATUS_MAP = {
-  '623f78aa0b815e595a83562106dfe2d0': { text: "We're Open", cssClass: 'text-green' },
-  '7f99e27cfc0c3dc09883a32ceadb4acf': { text: 'Coming Soon', cssClass: 'text-color-secondary' }
+  '623f78aa0b815e595a83562106dfe2d0': { text: "We're Open", cssClass: 'text-color-secondary' },
+  '7f99e27cfc0c3dc09883a32ceadb4acf': { text: 'Coming Soon', cssClass: 'text-green' }
 };
 ```
 
@@ -114,11 +107,7 @@ The script generates this HTML structure for each location:
 ```html
 <a data-w-id="[location-id]" href="/locations/[slug]" class="navigation-link-small menu-dropdown w-inline-block">
   <div class="block">
-    <div class="location-name-flex">
-      <div class="label-regular">[Location Name]</div>
-      <div class="label-regular _5-right">, </div>
-      <div class="label-regular">[State Abbr]</div>
-    </div>
+    <div class="label-regular location-name-text">[Location Name], [State Abbr]</div>
     <div class="paragraph-small [status-css-class]">[Status Text]</div>
   </div>
 </a>
@@ -131,12 +120,10 @@ Make sure these classes are defined in your Webflow styles:
 - `.menu-dropdown`
 - `.w-inline-block`
 - `.block`
-- `.location-name-flex`
 - `.label-regular`
-- `._5-right`
 - `.paragraph-small`
-- `.text-green` (for "We're Open" status)
-- `.text-color-secondary` (for "Coming Soon" status)
+- `.text-green` (for "Coming Soon" status)
+- `.text-color-secondary` (for "We're Open" status)
 
 ---
 

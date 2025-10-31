@@ -22,16 +22,10 @@
  *     display: flex;
  *     min-width: 0;
  *   }
- *   #collection-container .location-name-flex {
- *     display: flex;
- *     flex-wrap: wrap;
- *     align-items: baseline;
- *     min-width: 0;
- *   }
- *   #collection-container .label-regular {
+ *   #collection-container .location-name-text {
  *     word-wrap: break-word;
  *     overflow-wrap: break-word;
- *     min-width: 0;
+ *     hyphens: auto;
  *   }
  * </style>
  */
@@ -46,8 +40,8 @@
 
   // Known status hash mappings (Webflow option field values)
   const STATUS_MAP = {
-    '623f78aa0b815e595a83562106dfe2d0': { text: "We're Open", cssClass: 'text-green' },
-    '7f99e27cfc0c3dc09883a32ceadb4acf': { text: 'Coming Soon', cssClass: 'text-color-secondary' }
+    '623f78aa0b815e595a83562106dfe2d0': { text: "We're Open", cssClass: 'text-color-secondary' },
+    '7f99e27cfc0c3dc09883a32ceadb4acf': { text: 'Coming Soon', cssClass: 'text-green' }
   };
 
   // Cache for reference data
@@ -202,11 +196,7 @@
     return `
       <a data-w-id="${item.id}" href="${itemUrl}" class="navigation-link-small menu-dropdown w-inline-block">
         <div class="block">
-          <div class="location-name-flex">
-            <div class="label-regular">${safeName}</div>
-            <div class="label-regular _5-right">, </div>
-            <div class="label-regular">${safeState}</div>
-          </div>
+          <div class="label-regular location-name-text">${safeName}, ${safeState}</div>
           <div class="paragraph-small ${statusInfo.cssClass}">${safeStatus}</div>
         </div>
       </a>
