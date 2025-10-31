@@ -1,0 +1,25 @@
+{
+  "name": "webflow-locations-api",
+  "version": "1.0.0",
+  "description": "Serverless API proxy for Webflow CMS locations with CORS support",
+  "main": "api/locations.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel",
+    "deploy:prod": "vercel --prod"
+  },
+  "keywords": [
+    "webflow",
+    "api",
+    "proxy",
+    "vercel",
+    "serverless",
+    "cors"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
+}
