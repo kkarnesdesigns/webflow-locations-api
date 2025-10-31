@@ -17,14 +17,21 @@ const corsHeaders = {
  * Main handler for the serverless function
  */
 module.exports = async (req, res) => {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Max-Age', '86400');
+  res.setHeader('Content-Type', 'application/json');
+
   // Handle OPTIONS request (CORS preflight)
   if (req.method === 'OPTIONS') {
-    return res.status(200).set(corsHeaders).end();
+    return res.status(200).end();
   }
 
   // Only allow GET requests
   if (req.method !== 'GET') {
-    return res.status(405).set(corsHeaders).json({
+    return res.status(405).json({
       error: 'Method not allowed. Only GET requests are supported.'
     });
   }
@@ -38,14 +45,14 @@ module.exports = async (req, res) => {
     // Validate required environment variables
     if (!WEBFLOW_API_TOKEN) {
       console.error('WEBFLOW_API_TOKEN environment variable is not set');
-      return res.status(500).set(corsHeaders).json({
+      return res.status(500).json({
         error: 'Server configuration error. API token not configured.'
       });
     }
 
     if (!LOCATION_COLLECTION_ID) {
       console.error('LOCATION_COLLECTION_ID environment variable is not set');
-      return res.status(500).set(corsHeaders).json({
+      return res.status(500).json({
         error: 'Server configuration error. Collection ID not configured.'
       });
     }
@@ -84,7 +91,7 @@ module.exports = async (req, res) => {
       const errorText = await webflowResponse.text();
       console.error(`Webflow API error: ${webflowResponse.status} - ${errorText}`);
 
-      return res.status(webflowResponse.status).set(corsHeaders).json({
+      return res.status(webflowResponse.status).json({
         error: `Webflow API error: ${webflowResponse.status} ${webflowResponse.statusText}`,
         details: errorText
       });
@@ -101,12 +108,12 @@ module.exports = async (req, res) => {
       console.log(`Successfully fetched ${itemCount} items from collection ${collectionId}`);
     }
 
-    return res.status(200).set(corsHeaders).json(data);
+    return res.status(200).json(data);
 
   } catch (error) {
     // Handle unexpected errors
     console.error('Unexpected error:', error);
-    return res.status(500).set(corsHeaders).json({
+    return res.status(500).json({
       error: 'Internal server error',
       message: error.message,
       stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
